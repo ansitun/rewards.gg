@@ -1,0 +1,302 @@
+-- phpMyAdmin SQL Dump
+-- version 4.3.11.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Aug 07, 2016 at 08:32 PM
+-- Server version: 5.6.23
+-- PHP Version: 5.5.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `rewards_test`
+--
+CREATE DATABASE IF NOT EXISTS `rewards_test` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `rewards_test`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acl_classes`
+--
+
+CREATE TABLE IF NOT EXISTS `acl_classes` (
+  `id` int(10) unsigned NOT NULL,
+  `class_type` varchar(200) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `acl_classes`
+--
+
+INSERT INTO `acl_classes` (`id`, `class_type`) VALUES
+(1, 'AppBundle\\Entity\\Giveaway');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acl_entries`
+--
+
+CREATE TABLE IF NOT EXISTS `acl_entries` (
+  `id` int(10) unsigned NOT NULL,
+  `class_id` int(10) unsigned NOT NULL,
+  `object_identity_id` int(10) unsigned DEFAULT NULL,
+  `security_identity_id` int(10) unsigned NOT NULL,
+  `field_name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ace_order` smallint(5) unsigned NOT NULL,
+  `mask` int(11) NOT NULL,
+  `granting` tinyint(1) NOT NULL,
+  `granting_strategy` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `audit_success` tinyint(1) NOT NULL,
+  `audit_failure` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `acl_entries`
+--
+
+INSERT INTO `acl_entries` (`id`, `class_id`, `object_identity_id`, `security_identity_id`, `field_name`, `ace_order`, `mask`, `granting`, `granting_strategy`, `audit_success`, `audit_failure`) VALUES
+(1, 1, 1, 1, NULL, 0, 1, 1, 'all', 0, 0),
+(2, 1, 2, 1, NULL, 0, 1, 1, 'all', 0, 0),
+(3, 1, 3, 1, NULL, 0, 1, 1, 'all', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acl_object_identities`
+--
+
+CREATE TABLE IF NOT EXISTS `acl_object_identities` (
+  `id` int(10) unsigned NOT NULL,
+  `parent_object_identity_id` int(10) unsigned DEFAULT NULL,
+  `class_id` int(10) unsigned NOT NULL,
+  `object_identifier` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `entries_inheriting` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `acl_object_identities`
+--
+
+INSERT INTO `acl_object_identities` (`id`, `parent_object_identity_id`, `class_id`, `object_identifier`, `entries_inheriting`) VALUES
+(1, NULL, 1, '3', 1),
+(2, NULL, 1, '4', 1),
+(3, NULL, 1, '5', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acl_object_identity_ancestors`
+--
+
+CREATE TABLE IF NOT EXISTS `acl_object_identity_ancestors` (
+  `object_identity_id` int(10) unsigned NOT NULL,
+  `ancestor_id` int(10) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `acl_object_identity_ancestors`
+--
+
+INSERT INTO `acl_object_identity_ancestors` (`object_identity_id`, `ancestor_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `acl_security_identities`
+--
+
+CREATE TABLE IF NOT EXISTS `acl_security_identities` (
+  `id` int(10) unsigned NOT NULL,
+  `identifier` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `username` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `acl_security_identities`
+--
+
+INSERT INTO `acl_security_identities` (`id`, `identifier`, `username`) VALUES
+(1, 'ROLE_USER', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `giveaway`
+--
+
+CREATE TABLE IF NOT EXISTS `giveaway` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `slug` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `giveaway`
+--
+
+INSERT INTO `giveaway` (`id`, `name`, `price`, `slug`, `created`, `updated`, `deleted_at`) VALUES
+(1, 'Random Title', '10.00', 'Slug give away one', '2016-08-01 03:11:21', '2016-08-01 08:06:06', NULL),
+(2, 'Text for name', '25.00', 'Random text', '2016-08-01 03:11:21', '2016-08-01 08:06:06', NULL),
+(3, 'Title three', '18.00', 'Slug give away three', '2016-08-01 03:11:21', '2016-08-01 08:06:06', NULL),
+(4, 'Give Away name 4', '43.00', 'Text for search', '2016-08-01 03:11:21', '2016-08-01 08:06:06', NULL),
+(5, 'Give Away 5', '5.00', 'Fifth row in DB', '2016-08-01 03:11:21', '2016-08-01 08:06:06', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `giveaway_user`
+--
+
+CREATE TABLE IF NOT EXISTS `giveaway_user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
+  `username_canonical` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
+  `email_canonical` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `salt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `locked` tinyint(1) NOT NULL,
+  `expired` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `confirmation_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password_requested_at` datetime DEFAULT NULL,
+  `roles` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `credentials_expired` tinyint(1) NOT NULL,
+  `credentials_expire_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `giveaway_user`
+--
+
+INSERT INTO `giveaway_user` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`) VALUES
+(1, 'gargic', 'gargic', 'gargi0209.chakraborty@gmail.com', 'gargi0209.chakraborty@gmail.com', 1, 'orw6uq4sklwo408s04w4sowkk0o88kk', '$2y$13$orw6uq4sklwo408s04w4seL4g.D9jXxHOOWFWcHAxAaHW4mH4tJRK', '2016-08-07 19:49:29', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:10:"ROLE_ADMIN";}', 0, NULL),
+(2, 'Test', 'test', 'Test@mail.com', 'test@mail.com', 1, 'et80a2w7ejcc0wk4k48os0c440c8kk8', '$2y$13$et80a2w7ejcc0wk4k48osuxim/au0D21881ixFv6.FdxXNZ1bsi3W', '2016-08-07 19:55:49', 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `acl_classes`
+--
+ALTER TABLE `acl_classes`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_69DD750638A36066` (`class_type`);
+
+--
+-- Indexes for table `acl_entries`
+--
+ALTER TABLE `acl_entries`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_46C8B806EA000B103D9AB4A64DEF17BCE4289BF4` (`class_id`,`object_identity_id`,`field_name`,`ace_order`), ADD KEY `IDX_46C8B806EA000B103D9AB4A6DF9183C9` (`class_id`,`object_identity_id`,`security_identity_id`), ADD KEY `IDX_46C8B806EA000B10` (`class_id`), ADD KEY `IDX_46C8B8063D9AB4A6` (`object_identity_id`), ADD KEY `IDX_46C8B806DF9183C9` (`security_identity_id`);
+
+--
+-- Indexes for table `acl_object_identities`
+--
+ALTER TABLE `acl_object_identities`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_9407E5494B12AD6EA000B10` (`object_identifier`,`class_id`), ADD KEY `IDX_9407E54977FA751A` (`parent_object_identity_id`);
+
+--
+-- Indexes for table `acl_object_identity_ancestors`
+--
+ALTER TABLE `acl_object_identity_ancestors`
+  ADD PRIMARY KEY (`object_identity_id`,`ancestor_id`), ADD KEY `IDX_825DE2993D9AB4A6` (`object_identity_id`), ADD KEY `IDX_825DE299C671CEA1` (`ancestor_id`);
+
+--
+-- Indexes for table `acl_security_identities`
+--
+ALTER TABLE `acl_security_identities`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_8835EE78772E836AF85E0677` (`identifier`,`username`);
+
+--
+-- Indexes for table `giveaway`
+--
+ALTER TABLE `giveaway`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `giveaway_user`
+--
+ALTER TABLE `giveaway_user`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_12A3DCE092FC23A8` (`username_canonical`), ADD UNIQUE KEY `UNIQ_12A3DCE0A0D96FBF` (`email_canonical`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `acl_classes`
+--
+ALTER TABLE `acl_classes`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `acl_entries`
+--
+ALTER TABLE `acl_entries`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `acl_object_identities`
+--
+ALTER TABLE `acl_object_identities`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `acl_security_identities`
+--
+ALTER TABLE `acl_security_identities`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `giveaway`
+--
+ALTER TABLE `giveaway`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `giveaway_user`
+--
+ALTER TABLE `giveaway_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `acl_entries`
+--
+ALTER TABLE `acl_entries`
+ADD CONSTRAINT `FK_46C8B8063D9AB4A6` FOREIGN KEY (`object_identity_id`) REFERENCES `acl_object_identities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_46C8B806DF9183C9` FOREIGN KEY (`security_identity_id`) REFERENCES `acl_security_identities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_46C8B806EA000B10` FOREIGN KEY (`class_id`) REFERENCES `acl_classes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `acl_object_identities`
+--
+ALTER TABLE `acl_object_identities`
+ADD CONSTRAINT `FK_9407E54977FA751A` FOREIGN KEY (`parent_object_identity_id`) REFERENCES `acl_object_identities` (`id`);
+
+--
+-- Constraints for table `acl_object_identity_ancestors`
+--
+ALTER TABLE `acl_object_identity_ancestors`
+ADD CONSTRAINT `FK_825DE2993D9AB4A6` FOREIGN KEY (`object_identity_id`) REFERENCES `acl_object_identities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `FK_825DE299C671CEA1` FOREIGN KEY (`ancestor_id`) REFERENCES `acl_object_identities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
