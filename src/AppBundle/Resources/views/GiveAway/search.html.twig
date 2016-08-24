@@ -2,6 +2,7 @@
 
 {% block body %}
 
+    <h2> Seach Give-aways </h2>
    <form action="{{path("search")}}" method="post">
     <div>
 	    <label for="_name">Giveaway Name</label>
@@ -25,11 +26,19 @@
 
 <br>
 {% if giveaways is not empty %}
-<table border=1px >
-<tr><th>GiveAway</th><th>Slug</th><th>Price</th></tr>
+<table class="table">
+    <thead>
+        <tr>
+          <th>#</th>  
+          <th>GiveAway</th>
+          <th>Slug</th>
+          <th>Price</th>
+        </tr>
+  </thead>
     {% for gives in giveaways %}
         
         <tr>
+            <td>{{ loop.index }} </td>
             <td>{{ gives.name }}</td>
             <td>{{ gives.slug }}</td>
             <td>${{ gives.price }}</td>

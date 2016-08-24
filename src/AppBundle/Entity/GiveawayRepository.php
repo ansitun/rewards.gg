@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class GiveawayRepository extends EntityRepository
 {
+    /**
+      * Function to giveaways.
+      *
+      * @param string $name
+      * @param string $sort
+      *
+      * @return object
+      */
+     public function fetchGiveaways($name,$sort)
+     {
+         $qb = $this->createQueryBuilder('give_away')
+                   ->where('give_away.name LIKE :key')
+                   ->setParameter('key', '%' . $name . '%')
+                   ->orderBy('give_away.price', $sort)
+                ;
+
+         return $qb->getQuery()->getResult();
+     }
 }

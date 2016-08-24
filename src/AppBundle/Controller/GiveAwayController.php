@@ -27,32 +27,23 @@ class GiveAwayController extends Controller
        	$filtered = [];
 
     	if(!empty($request->request->get('_name'))){
-
-    		$name = $request->request->get('_name');
-    		$sort = $request->request->get('_sort');
-
-
-			$repo = $this->getDoctrine()
+            $name = $request->request->get('_name');
+            $sort = $request->request->get('_sort');
+            $repo = $this->getDoctrine()
                   ->getRepository('AppBundle:Giveaway');
-
-    		$results = $repo->createQueryBuilder('give_away')
-                   ->where('give_away.name LIKE :key')
-                   ->setParameter('key', '%' . $name . '%')
-                   ->orderBy('give_away.price', $sort)
-                   ->getQuery()
-                   ->getResult();
-
+            $results = $repo->fetchGiveaways($name, $sort);
             $authCheck = $this->get('security.authorization_checker');
 
             if (!in_array('ROLE_ADMIN', $user->getRoles())) {
 
 	            foreach($results as $item) {
 	            	$gotAccess = $authCheck->isGranted('VIEW', $item);
-	            	 if($gotAccess) {
+                        
+	            	if($gotAccess) {
 	            	 		//non-admin for 'other' items that has been granted explicit Role based access
 	            	 		//php app/console acl:set --role=ROLE_USER  VIEW AppBundle/Entity/Giveaway:3
-	            	 	array_push($filtered, $item);
-		            }
+                            array_push($filtered, $item);
+		        }
 	            }
             }else {
             	//ROLE_ADMIN sees all
@@ -61,11 +52,12 @@ class GiveAwayController extends Controller
             
     	}
 
-        return $this->render('AppBundle:GiveAway:search.html.twig', array(
-							'_name' => $name,
-							'_sort' => $sort,
-							'giveaways' => $filtered
-					));
+        return $this->render('AppBundle:GiveAway:search.html.twig', 
+                array(
+                    '_name' => $name,
+                    '_sort' => $sort,
+                    'giveaways' => $filtered
+                ));
     }
 
 }
